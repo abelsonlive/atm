@@ -8,13 +8,13 @@ atm
 Install
 =======
 ```
-pip install atm
+$ pip install atm
 ```
 
 Tests
 =======
 ```
-nosetests tests
+$ nosetests tests
 ```
 
 Usage
@@ -29,12 +29,19 @@ content = teller.get_cache('http://www.google.com/')
 print teller.receipts()
 ```
 Set up a cache on s3:
+
+*Note*: The bucket must already exist and and you must have `AWS_ACCESS_KEY_ID` and  `AWS_ACCESS_KEY_SECRET` set as environmental variables.
+
+Do this ass follows:
+```
+$ export AWS_ACCESS_KEY_ID="myaccesskeyid"
+$ export AWS_ACCESS_KEY_ID="myaccesskeysecret"
+```
+
 ```python
 from atm import ATM
 
-# note, bucket must exist, 
-# and you must have `AWS_ACCESS_KEY_ID` and 
-# `AWS_ACCESS_KEY_SECRET` set as environmental variables.
+
 teller = ATM('s3://my-bucket/path/to/cache/')
 content = teller.get_cache('http://www.google.com/')
 
