@@ -94,7 +94,7 @@ Convenience Methods
 -------------------
 **atm** also comes with some convenience methods for working with cache'd content.
 
-``ATM.transaction(url, timestamp=None)`` returns the filepath in the cache for a url. If `ATM` has been initialized with a set `interval`, you can use the `timestamp` arg to look up the file in the cache associated with that timestamp.
+``ATM.transaction(url, timestamp=None)`` returns the filepath in the cache for a url. If ``ATM`` has been initialized with a set ``interval``, you can use the ``timestamp`` arg to look up the filepath in the cache associated with that url and timestamp.
 
 ``ATM.withdraw(filepath)`` returns the contents of a file in the cache, given it's filepath.
 
