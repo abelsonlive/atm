@@ -3,6 +3,7 @@ from hashlib import sha1
 import time
 import shutil
 import requests
+import time
 
 from atm import ATM 
 from atm.s3 import is_s3_uri, parse_s3_uri
@@ -151,23 +152,19 @@ class ATMTests(unittest.TestCase):
 
   def test_s3_interval(self):
     teller = ATM(s3_cache_dir, interval=10)
+    
+    # remove cache directory
+    teller.default()
 
     r = teller.get_cache(url)
-
-    print r.source, r.interval, r.filepath
-
     r = teller.get_cache(url)
-
-    print r.source, r.interval, r.filepath
 
     time.sleep(10)
 
     r = teller.get_cache(url)
 
-    print r.source, r.interval, r.filepath
-
     statement = teller.statement()
-    print statement
+
     # remove cache directory
     teller.default()
 
@@ -181,6 +178,8 @@ class ATMTests(unittest.TestCase):
     source1 = r.source
     r = teller.get_cache(url)
     source2 = r.source
+
+    teller.default()
 
     assert source1=="url" and source2=="cache"
 
