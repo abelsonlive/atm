@@ -18,7 +18,7 @@ Install **atm** via ``pip``::
 
 Tests
 -------
-Test package with `nosetests`::
+Test package with ``nosetests``::
 
   nosetests tests
 
