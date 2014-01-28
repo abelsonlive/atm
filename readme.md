@@ -11,6 +11,12 @@ Install
 pip install atm
 ```
 
+Tests
+=======
+```
+nosetests tests
+```
+
 Usage
 =======
 Set up a local cache:
