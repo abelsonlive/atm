@@ -1,9 +1,9 @@
 atm
 ====
 
-`atm` is a simple wrapper for `requests.get()` that intelligently fetches data from the web and caches it locally or on s3. It's best used for web scraping projects where you want to avoid repeatedly requesting the source content.
+`atm` is a simple wrapper for `requests.get()` that intelligently fetches data from the web and caches it locally or on Amazon S3. It's best used for web scraping projects where you want to avoid repeatedly requesting the source content. The inspiration for library came from a [tutorial](https://github.com/pudo/hhba-scraping) that [@pudo](http://www.twitter.com/pudo) gave at the [2013 Buenos Aires Hacks/Hackers Media Party](http://www.mediaparty.info/).
 
-[Read the docs.](http://atm.readthedocs.org/en/latest/)
+[Read the docs](http://atm.readthedocs.org/en/latest/).
 
 Install
 =======
@@ -30,7 +30,7 @@ print teller.receipts()
 ```
 Set up a cache on Amazon S3:
 
-*Note*: The bucket must already exist and and you must have `AWS_ACCESS_KEY_ID` and  `AWS_ACCESS_KEY_SECRET` set as environmental variables.
+**Note**: The bucket must already exist and and you must have `AWS_ACCESS_KEY_ID` and  `AWS_ACCESS_KEY_SECRET` set as environmental variables.
 
 Do this as follows:
 ```

@@ -35,7 +35,7 @@ def parse_s3_uri(uri):
   return components.netloc, components.path[1:]
 
 class S3(object):
-  
+  """ A class for connecting to a s3 bucket and uploading/downloading files"""
   def __init__(self, s3_uri):
       self.bucket_name, self.cache_dir = parse_s3_uri(s3_uri)
       self.bucket = self._connect_to_bucket(self.bucket_name)
@@ -48,16 +48,26 @@ class S3(object):
       if bucket_name == i.name:
           return i
 
-  def upload(self, filename, data):
+  def upload(self, filepath, data, format):
     k = Key(self.bucket)
-    k.key = self.cache_dir + filename
-    k.set_contents_from_string(data)
+    k.key = filepath
+    if format == "txt":
+      k.set_contents_from_string(data)
+    elif format == "json":
+      k.set_contents_from_string(json.dumps(data))
 
-  def download(self, filename):
+  def download(self, filepath, format):
     k = Key(self.bucket)
-    k.key = self.cache_dir + filename
+    k.key = filepath
     if k.exists():
+      if format == "txt":
         return k.get_contents_as_string()
+      elif format == "json":
+        return json.loads(k.get_contents_as_string())
     else:
         return None
 
+  def delete(self, filepath):
+    k = Key(self.bucket)
+    k.key = filepath
+    self.bucket.delete_key(k)

@@ -11,6 +11,19 @@ from local import load_local, store_local
 from datetime import datetime
 
 
+class ATM_Response(object):
+  """a return object for ATM.get_cache"""
+  def __init__(self, content,  url, filepath, cache_dir, bucket_name, is_s3, status_code, source, timestamp):
+    self.content = content
+    self.url = url
+    self.filepath = filepath
+    self.cache_dir = cache_dir
+    self.bucket_name =  bucket_name
+    self.is_s3 = is_s3
+    self.status_code = status_code
+    self.source = source
+    self.timestamp = timestamp
+
 class ATM_Error(Exception):
   pass
 
@@ -24,9 +37,13 @@ class ATM(object):
     if is_s3_uri(cache_dir):
       self.is_s3 = True
       self.s3 = S3(cache_dir)
+      self.cache_dir = self.s3.cache_dir
+      self.bucket_name = self.s3.bucket_name
+
     else:
       self.is_s3 = False
       self.cache_dir = cache_dir
+      self.bucket_name = None
       
       # If the cache directory does not exist, make one.
       if not os.path.isdir(self.cache_dir):
@@ -43,7 +60,8 @@ class ATM(object):
 
     # get cached content
     if self.is_s3:
-      content = self.s3.download(filepath)
+      content = self.s3.download(filepath, self.format)
+
     else:
       content = load_local(filepath, self.format)
 
@@ -51,9 +69,11 @@ class ATM(object):
     if content is None:
       response = requests.get(url)
 
+      status_code = response.status_code
+      
       if response.status_code != 200:
-        raise ATM_Error('RESPONSE RETURNED WITH STATUS CODE %d' % response.status_code)
-
+        content = None
+         
       else:
         # fetch
         if self.format =="json":
@@ -64,22 +84,51 @@ class ATM(object):
 
         # cache
         if self.is_s3:
-          self.s3.upload(filepath, content)
+          self.s3.upload(filepath, content, self.format)
           
         else:
           store_local(filepath, content, self.format)
 
-    return content
-
-  def receipts(self):
-    if self.is_s3:
-      filenames = []
-      for k in self.s3.bucket.list(self.s3.cache_dir):
-        filename = re.sub(self.s3.cache_dir, '', k.key)
-        filenames.append(filename)
-      return filenames
     else:
-      return os.listdir(self.cache_dir)
+
+      status_code = None
+
+    return ATM_Response(
+      content = content,
+      url = url,
+      filepath = filepath,
+      cache_dir = self.cache_dir,
+      bucket_name = self.bucket_name,
+      is_s3 = self.is_s3,
+      status_code = status_code,
+      source = "cache" if status_code is None else "url",
+      timestamp = int(interval_string) if interval_string else None
+    ) 
+
+  def liquidate(self):
+    """ Retrieve all files from the cache. Returns a generator"""
+    if self.is_s3:
+      for filepath in self.statement():
+        yield self.s3.download(filepath, self.format)
+    else:
+      for filepath in self.statement():
+        yield load_local(filepath, self.format)
+
+  def default(self):
+    """ Delete all files from the cache"""
+    if self.is_s3:
+      for filepath in self.statement():
+        self.s3.delete(filepath)
+    else:
+      for filepath in self.statement():
+        os.remove(filepath)
+
+  def statement(self):
+    """ List all files in the cache """
+    if self.is_s3:
+        return [k.key for k in self.s3.bucket.list(self.cache_dir)]
+    else:
+      return [os.path.join(self.cache_dir, f) for f in os.listdir(self.cache_dir)]
 
   def _url_to_filepath(self, url, interval_string):
     """ Make a url into a file name, using SHA1 hashes. """
@@ -88,12 +137,11 @@ class ATM(object):
     hash_file = "%s.%s" % (sha1(url).hexdigest(), self.format)
     if interval_string:
       hash_file = "%s-%s" % (interval_string, hash_file)
-    if self.is_s3:
-      return hash_file
-    else:
-      return os.path.join(self.cache_dir, hash_file)
+
+    return os.path.join(self.cache_dir, hash_file)
 
   def _gen_interval_string(self):
+    """Generate a timestamp string that will be used to update the cache at a set interval"""
     now = int(datetime.now().strftime("%s"))
     if self.interval:
       return str(now - (now % int(self.interval)))
