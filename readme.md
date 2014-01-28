@@ -26,7 +26,7 @@ from atm import ATM
 teller = ATM('cache')
 r = teller.get_cache('http://www.google.com/')
 
-print teller.statements()
+print teller.statement()
 ```
 Set up a cache on Amazon S3:
 
@@ -45,7 +45,7 @@ from atm import ATM
 teller = ATM('s3://my-bucket/path/to/cache/')
 r = teller.get_cache('http://www.google.com/')
 
-print teller.statements()
+print teller.statement()
 ```
 Set the file format as json (default = "txt"):
 ```python
@@ -54,7 +54,7 @@ from atm import ATM
 teller = ATM('cache', format="json")
 r = teller.get_cache('https://www.healthcare.gov/what-is-the-health-insurance-marketplace.json')
 
-print teller.statements()
+print teller.statement()
 ```
 Set an interval (in seconds) at which to update the cache.  This option should be used when regularly polling static urls which have dynamic content. 
 ```python
@@ -70,7 +70,7 @@ time.sleep(10)
 
 content = teller.get_cache('http://www.google.com/')
 
-print teller.statements()
+print teller.statement()
 ```
 ### Response Format
 `ATM.get_cache()` returns an object with the following attributes:
