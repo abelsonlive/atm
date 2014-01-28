@@ -105,6 +105,13 @@ class ATM(object):
       timestamp = int(interval_string) if interval_string else None
     ) 
 
+  def withdraw(self, filepath):
+    """ Retrieves a file from the cache"""
+    if self.is_s3:
+      return self.s3.download(filepath, self.format)
+    else:
+      return load_local(filepath, self.format)
+
   def liquidate(self):
     """ Retrieve all files from the cache. Returns a generator"""
     if self.is_s3:
@@ -130,6 +137,13 @@ class ATM(object):
     else:
       return [os.path.join(self.cache_dir, f) for f in os.listdir(self.cache_dir)]
 
+  def transaction(self, url, timestamp = None):
+    """ get the filepath for the contents of a url in the cache"""
+    if timestamp:
+      timestamp = str(self._round_timestamp_to_interval(timestamp))
+
+    return self._url_to_filepath(url, timestamp)
+
   def _url_to_filepath(self, url, interval_string):
     """ Make a url into a file name, using SHA1 hashes. """
 
@@ -144,9 +158,14 @@ class ATM(object):
     """Generate a timestamp string that will be used to update the cache at a set interval"""
     now = int(datetime.now().strftime("%s"))
     if self.interval:
-      return str(now - (now % int(self.interval)))
+      return self._round_timestamp_to_interval(now)
     else:
       return None
+
+  def _round_timestamp_to_interval(self, ts):
+    """Generate a timestamp string that will be used to update the cache at a set interval"""
+    return int(ts) - int(ts % int(self.interval))
+
 
 
 
