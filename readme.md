@@ -37,7 +37,7 @@ Set the file format as json (default = "txt"):
 from atm import ATM
 
 teller = ATM('cache', format="json")
-content = teller.get_cache('http://search.twitter.com/search.json?q=atm')
+content = teller.get_cache('https://www.healthcare.gov/what-is-the-health-insurance-marketplace.json')
 
 print teller.receipts()
 ```
