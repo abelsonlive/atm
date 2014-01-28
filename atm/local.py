@@ -11,7 +11,7 @@ def store_local(local_path, content, format):
     if format == 'json':
       f.write(json.dumps(content))
 
-    elif format=="html":
+    elif format=="txt":
       return f.write(content)
 
 
@@ -30,5 +30,5 @@ def load_local(local_path, format):
       else:
         return content
 
-    elif format=="html":
+    elif format=="txt":
       return f.read()
