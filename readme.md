@@ -32,7 +32,7 @@ Set up a cache on s3:
 
 *Note*: The bucket must already exist and and you must have `AWS_ACCESS_KEY_ID` and  `AWS_ACCESS_KEY_SECRET` set as environmental variables.
 
-Do this ass follows:
+Do this as follows:
 ```
 $ export AWS_ACCESS_KEY_ID="myaccesskeyid"
 $ export AWS_ACCESS_KEY_ID="myaccesskeysecret"
