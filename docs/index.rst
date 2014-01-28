@@ -7,7 +7,7 @@
 ========
 
 
-**atm** is a simple wrapper for ``requests.get()`` that intelligently fetches data from the web and caches it locally or on Amazon S3. It's best used for web scraping projects in which you want to avoid repeatedly requesting the source content.
+**atm** is a simple wrapper for ``requests.get()`` that intelligently fetches data from the web and caches it locally or on Amazon S3. It's best used for web scraping projects in which you want to avoid repeatedly requesting the source content. The inspiration for this package came from a `tutorial <https://github.com/pudo/hhba-scraping>`_ that `@pudo <http://www.twitter.com/pudo/>`_ gave at the `2013 Buenos Aires Hacks/Hackers Media Party <http://www.mediaparty.info>/`_.
 
 Installation
 ----------
