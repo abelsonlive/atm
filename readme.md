@@ -15,44 +15,45 @@ Set up a local cache:
 ```python
 from atm import ATM
 
-bank = ATM('cache')
-content = bank.get_cache('http://www.google.com/')
+teller = ATM('cache')
+content = teller.get_cache('http://www.google.com/')
 
-print bank.receipts()
+print teller.receipts()
 ```
 Set up a cache on s3:
 ```python
 from atm import ATM
 
-# note, bucket must exist, and you must have AWS_ACCESS_KEY_ID and AWS_ACCESS_KEY_SECRET set as environmental variables.
-bank = ATM('s3://my-bucket/path/to/cache/')
-content = bank.get_cache('http://www.google.com/')
+# note, bucket must exist, 
+# and you must have `AWS_ACCESS_KEY_ID` and 
+# `AWS_ACCESS_KEY_SECRET` set as environmental variables.
+teller = ATM('s3://my-bucket/path/to/cache/')
+content = teller.get_cache('http://www.google.com/')
 
-print bank.receipts()
+print teller.receipts()
 ```
 Set the file format as json (default = "txt"):
 ```python
 from atm import ATM
 
-# note, bucket must exist!
-bank = ATM('cache', format="json")
-content = bank.get_cache('http://search.twitter.com/search.json?q=atm')
+teller = ATM('cache', format="json")
+content = teller.get_cache('http://search.twitter.com/search.json?q=atm')
 
-print bank.receipts()
+print teller.receipts()
 ```
 Set an interval (in seconds) at which to update the cache.  This option should be used when regularly polling static urls which have dynamic content. 
 ```python
 from atm import ATM
 import time
 
-bank = ATM('cache', interval=10)
+teller = ATM('cache', interval=10)
 
-content = bank.get_cache('http://www.google.com/')
-content = bank.get_cache('http://www.google.com/')
+content = teller.get_cache('http://www.google.com/')
+content = teller.get_cache('http://www.google.com/')
 
 time.sleep(10)
 
-content = bank.get_cache('http://www.google.com/')
+content = teller.get_cache('http://www.google.com/')
 
-print bank.receipts()
+print teller.receipts()
 ```
