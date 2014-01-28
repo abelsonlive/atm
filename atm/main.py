@@ -75,7 +75,7 @@ class ATM(object):
     if self.is_s3:
       filenames = []
       for k in self.s3.bucket.list(self.s3.cache_dir):
-        filename = re.sub(self.s3.cache_dir, '', k.key)[1:]
+        filename = re.sub(self.s3.cache_dir, '', k.key)
         filenames.append(filename)
       return filenames
     else:
