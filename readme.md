@@ -28,7 +28,7 @@ content = teller.get_cache('http://www.google.com/')
 
 print teller.receipts()
 ```
-Set up a cache on s3:
+Set up a cache on Amazon S3:
 
 *Note*: The bucket must already exist and and you must have `AWS_ACCESS_KEY_ID` and  `AWS_ACCESS_KEY_SECRET` set as environmental variables.
 
@@ -38,9 +38,9 @@ $ export AWS_ACCESS_KEY_ID="myaccesskeyid"
 $ export AWS_ACCESS_KEY_ID="myaccesskeysecret"
 ```
 
+Now you're all set to cache results on S3:
 ```python
 from atm import ATM
-
 
 teller = ATM('s3://my-bucket/path/to/cache/')
 content = teller.get_cache('http://www.google.com/')
