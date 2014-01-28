@@ -33,9 +33,9 @@ Set up a local cache::
 
   print teller.receipts()
 
-Set up a cache on s3:
+Set up a cache on Amazon S3:
 
-*Note*: The bucket must already exist and and you must have ``AWS_ACCESS_KEY_ID`` and  ``AWS_ACCESS_KEY_SECRET`` set as environmental variables.
+**Note**: The bucket must already exist and and you must have ``AWS_ACCESS_KEY_ID`` and  ``AWS_ACCESS_KEY_SECRET`` set as environmental variables.
 
 Do this as follows::
   
