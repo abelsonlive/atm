@@ -3,6 +3,8 @@ atm
 
 `atm` is a simple wrapper for `requests.get()` that intelligently fetches data from the web and caches it locally or on s3. It's best used for web scraping projects where you want to avoid repeatedly requesting the source content.
 
+[Read the docs.](http://atm.readthedocs.org/en/latest/)
+
 Install
 =======
 ```
