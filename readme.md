@@ -35,7 +35,7 @@ Set up a cache on Amazon S3:
 Do this as follows:
 ```
 $ export AWS_ACCESS_KEY_ID="myaccesskeyid"
-$ export AWS_ACCESS_KEY_ID="myaccesskeysecret"
+$ export AWS_SECRET_ACCESS_KEY="myaccesskeysecret"
 ```
 
 Now you're all set to cache results on S3:
