@@ -150,7 +150,7 @@ class ATM(object):
     # use a sha1 hash to convert the url into a unique filepath
     hash_file = "%s.%s" % (sha1(url).hexdigest(), self.format)
     if interval_string:
-      hash_file = "%s-%s" % (interval_string, hash_file)
+      hash_file = "%s-%s" % (str(interval_string), hash_file)
 
     return os.path.join(self.cache_dir, hash_file)
 
