@@ -164,7 +164,7 @@ class ATM(object):
 
   def _round_timestamp_to_interval(self, ts):
     """Generate a timestamp string that will be used to update the cache at a set interval"""
-    return int(ts) - int(ts % int(self.interval))
+    return str(int(ts) - int(ts % int(self.interval)))
 
 
 
