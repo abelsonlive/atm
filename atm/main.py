@@ -9,7 +9,7 @@ from s3 import is_s3_uri, S3
 
 from local import load_local, store_local
 from datetime import datetime
-
+from time_utils import convert_to_epoch
 
 class ATM_Response(object):
   """a return object for ATM.get_cache"""
@@ -156,7 +156,7 @@ class ATM(object):
 
   def _gen_interval_string(self):
     """Generate a timestamp string that will be used to update the cache at a set interval"""
-    now = int(datetime.now().strftime("%s"))
+    now = convert_to_epoch(datetime.now())
     if self.interval:
       return self._round_timestamp_to_interval(now)
     else:
